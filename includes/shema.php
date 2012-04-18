@@ -22,6 +22,8 @@ if ($updateManager->isInstall()){
 if (Ab_UpdateManager::$isCoreInstall){ 
 	// идет инсталляция платформы, значит можно установить шаблон для госучреждения
 	
+	Abricos::$user->id = 1;
+	
 	// Установить шаблон gov
 	Abricos::GetModule('sys')->GetManager();
 	$sysMan = Ab_CoreSystemManager::$instance;
@@ -126,9 +128,43 @@ if (Ab_UpdateManager::$isCoreInstall){
 		$p->nm = 'index';
 		$p->bd = '';
 		$manSitemap->PageAppend($p);
+		
+		$modBlog->GetManager();
+		$blogMan = BlogManager::$instance;
+		$blogMan->DisableRoles();
+		
+		// Категория блога
+		$c = new stdClass();
+		$c->nm = 'vopros-otvet';
+		$c->ph = 'Вопрос-ответ';
+		$catid = $blogMan->CategoryAppend($c);
+		
+		// Запись в блоге
+		$t = new stdClass();
+		$t->catid = $catid;
+		$t->st = 1;
+		$t->tl = "Ответ по обычной почте";
+		$t->intro = "
+<p>
+	<strong>Вопрос:</strong> Будет ли отправлен ответ на вопрос через интернет-приемную по обычной почте?
+</p>
+		";
+
+		$t->body = "
+<p>
+	<strong>Ответ:</strong> 
+	Согласно <a href='http://cms/blog/vopros-otvet/' title='Федеральному закону Российской Федерации от 2 мая 2006 г. N 59-ФЗ \"О порядке рассмотрения обращений граждан Российской Федерации\"'>
+	Федеральному закону Российской Федерации от 2 мая 2006 г. N 59-ФЗ \"О порядке рассмотрения обращений граждан Российской Федерации\"</a> статья 10 п.4: <br />
+	Ответ на обращение, поступившее в государственный орган, орган местного самоуправления или должностному 
+	лицу по информационным системам общего пользования, направляется по почтовому адресу, 
+	указанному в обращении.
+</p>
+		";
+		$t->tags = "Интернет-приемная, Обращение граждан";
+		$blogMan->TopicSave($t);
 	}
 	
-	
+	Abricos::$user->id = 0;
 }
 
 
