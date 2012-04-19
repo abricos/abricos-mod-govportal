@@ -114,6 +114,96 @@ if (Ab_UpdateManager::$isCoreInstall){
 		$manSitemap->PageAppend($p);
 	}
 	
+	// Посетителям
+	$m = new stdClass();
+	$m->nm = 'visitors';
+	$m->tl = 'Посетителям';
+	$m->ord = $ord++;
+	$m->id = $manSitemap->MenuAppend($m);
+	
+	$p = new stdClass();
+	$p->mid = $m->id;
+	$p->nm = 'index';
+	$p->bd = "
+		<h2>Посетителям</h2>
+		<hr style='width: 100%;'>
+		
+		<p><strong>Время работы:</strong></p>
+		
+		<table border='0' style='width: 300px;'><tbody>
+			<tr>
+				<td>Понедельник - пятница</td>
+				<td>с <strong>9.00</strong> до <strong>18.00</strong></td>
+			</tr>
+			<tr>
+				<td>Перерыв</td>
+				<td>с <strong>12.00</strong> до <strong>13.00</strong></td>
+			</tr>
+		</tbody></table>
+		
+		<hr style='width: 100%;'>
+		
+		<p><strong>Местонахождение:</strong></p>
+	
+		<p>101000, г.Москва, Красная площадь, дом 1</p>
+		
+		<p>
+			Тел.: 101-00-01<br> 
+			Факс. 101-00-02
+		</p>
+	";
+	$manSitemap->PageAppend($p);
+	
+	$pmid = $m->id;
+	
+	// Посетителям / Прием населения
+	$m = new stdClass();
+	$m->nm = 'priem_naseleniya';
+	$m->pid = $pmid;
+	$m->tl = 'Прием населения';
+	$m->ord = $ord++;
+	$m->id = $manSitemap->MenuAppend($m);
+	
+	$p = new stdClass();
+	$p->mid = $m->id;
+	$p->nm = 'index';
+	$p->bd = "
+		<h3>Прием населения</h3>
+		
+		<table class='infotable' style='width: 500px;'><tbody>
+		<tr>
+			<td>Начальник</td>
+			<td>вторник - четверг</td>
+			<td>с <strong>13.00</strong> до <strong>16.00</strong></td>
+		</tr>
+		<tr>
+			<td>Заместитель начальника</td>
+			<td>вторник - четверг</td>
+			<td>с <strong>10.00</strong> до <strong>12.00</strong></td>
+		</tr>
+		</tbody></table>
+		
+		<p>
+			Запись на прием – каждый вторник,  четверг с 09.00 до 10.00
+		</p>
+		
+	";
+	$manSitemap->PageAppend($p);
+	
+	
+	// Новости
+	$m = new stdClass();
+	$m->nm = 'news';
+	$m->tl = 'Новости';
+	$m->ord = $ord++;
+	$m->id = $manSitemap->MenuAppend($m);
+	
+	$p = new stdClass();
+	$p->mid = $m->id;
+	$p->nm = 'index';
+	$p->bd = "<h2>Новости</h2>";
+	$manSitemap->PageAppend($p);
+	
 	// Модуль "Блог" - ответы на часто задаваемые вопросы публикуются сюда
 	$modBlog = Abricos::GetModule('blog');
 	if (!empty($modBlog)){
@@ -163,6 +253,19 @@ if (Ab_UpdateManager::$isCoreInstall){
 		$t->tags = "Интернет-приемная, Обращение граждан";
 		$blogMan->TopicSave($t);
 	}
+	
+	// Карта сайта
+	$m = new stdClass();
+	$m->nm = 'sitemap';
+	$m->tl = 'Карта сайта';
+	$m->ord = $ord++;
+	$m->id = $manSitemap->MenuAppend($m);
+	
+	$p = new stdClass();
+	$p->mid = $m->id;
+	$p->nm = 'index';
+	$p->bd = "<h2>Карта сайта</h2>";
+	$manSitemap->PageAppend($p);
 	
 	Abricos::$user->id = 0;
 }
